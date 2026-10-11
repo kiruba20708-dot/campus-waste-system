@@ -155,7 +155,7 @@ public CampusWasteSystemApplication(
                 description.trim());
 
         WasteReport saved = reportRepository.save(report);
-      ```java
+      java
 try {
     String apiKey = System.getenv("RESEND_API_KEY");
 
@@ -188,7 +188,7 @@ try {
     System.err.println("Email notification failed: "
             + e.getMessage());
 }
-```
+
 
 
         return """
