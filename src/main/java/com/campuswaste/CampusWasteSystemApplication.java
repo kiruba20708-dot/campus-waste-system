@@ -153,6 +153,27 @@ public CampusWasteSystemApplication(
                 description.trim());
 
         WasteReport saved = reportRepository.save(report);
+      try {
+    SimpleMailMessage message = new SimpleMailMessage();
+
+    message.setTo(System.getenv("NOTIFICATION_EMAIL"));
+    message.setSubject("New Campus Waste Report Submitted");
+
+    message.setText(
+            "A new waste report has been submitted.\n\n"
+            + "Report ID: " + saved.getId() + "\n"
+            + "Student Name: " + name.trim() + "\n"
+            + "Location: " + location.trim() + "\n"
+            + "Waste Type: " + type + "\n"
+            + "Description: " + description.trim()
+    );
+
+    mailSender.send(message);
+
+} catch (Exception e) {
+    System.err.println("Email notification failed: "
+            + e.getMessage());
+}
 
         return """
             <!DOCTYPE html>
