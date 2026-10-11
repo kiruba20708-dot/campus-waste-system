@@ -18,16 +18,18 @@ import org.springframework.mail.javamail.JavaMailSender;
 public class CampusWasteSystemApplication {
 
     private final WasteReportRepository reportRepository;
+private final JavaMailSender mailSender;
 
-    private static final String STAFF_PASSWORD =
-            System.getenv().getOrDefault(
-                    "CAMPUS_STAFF_PASSWORD", "staff123");
+private static final String STAFF_PASSWORD =
+        System.getenv().getOrDefault(
+                "CAMPUS_STAFF_PASSWORD", "staff123");
 
-    public CampusWasteSystemApplication(
-            WasteReportRepository reportRepository) {
-        this.reportRepository = reportRepository;
-    }
-
+public CampusWasteSystemApplication(
+        WasteReportRepository reportRepository,
+        JavaMailSender mailSender) {
+    this.reportRepository = reportRepository;
+    this.mailSender = mailSender;
+}
     public static void main(String[] args) {
         SpringApplication.run(
                 CampusWasteSystemApplication.class, args);
