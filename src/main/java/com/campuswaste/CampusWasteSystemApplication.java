@@ -2,6 +2,8 @@
 
                 package com.campuswaste;
 
+import com.resend.Resend;
+import com.resend.services.emails.model.CreateEmailOptions;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
