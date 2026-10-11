@@ -11,26 +11,21 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.List;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 
 @SpringBootApplication
 @RestController
 public class CampusWasteSystemApplication {
 
     private final WasteReportRepository reportRepository;
-private final JavaMailSender mailSender;
+
 
 private static final String STAFF_PASSWORD =
         System.getenv().getOrDefault(
                 "CAMPUS_STAFF_PASSWORD", "staff123");
 
 public CampusWasteSystemApplication(
-        WasteReportRepository reportRepository,
-        JavaMailSender mailSender) {
+        WasteReportRepository reportRepository) {
     this.reportRepository = reportRepository;
-    this.mailSender = mailSender;
 }
     public static void main(String[] args) {
         SpringApplication.run(
@@ -155,7 +150,7 @@ public CampusWasteSystemApplication(
                 description.trim());
 
         WasteReport saved = reportRepository.save(report);
-      java
+      
 try {
     String apiKey = System.getenv("RESEND_API_KEY");
 
