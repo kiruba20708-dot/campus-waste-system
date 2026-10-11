@@ -155,27 +155,41 @@ public CampusWasteSystemApplication(
                 description.trim());
 
         WasteReport saved = reportRepository.save(report);
-      try {
-    SimpleMailMessage message = new SimpleMailMessage();
+      ```java
+try {
+    String apiKey = System.getenv("RESEND_API_KEY");
 
-    message.setTo(System.getenv("NOTIFICATION_EMAIL"));
-    message.setSubject("New Campus Waste Report Submitted");
+    if (apiKey == null || apiKey.isBlank()) {
+        throw new IllegalStateException(
+                "RESEND_API_KEY is not configured");
+    }
 
-    message.setText(
-            "A new waste report has been submitted.\n\n"
-            + "Report ID: " + saved.getId() + "\n"
-            + "Student Name: " + name.trim() + "\n"
-            + "Location: " + location.trim() + "\n"
-            + "Waste Type: " + type + "\n"
-            + "Description: " + description.trim()
-    );
+    Resend resend = new Resend(apiKey);
 
-    mailSender.send(message);
+    CreateEmailOptions message = CreateEmailOptions.builder()
+            .from("onboarding@resend.dev")
+            .to(System.getenv("NOTIFICATION_EMAIL"))
+            .subject("New Campus Waste Report Submitted")
+            .text(
+                    "A new waste report has been submitted.\n\n"
+                    + "Report ID: " + saved.getId() + "\n"
+                    + "Student Name: " + name.trim() + "\n"
+                    + "Location: " + location.trim() + "\n"
+                    + "Waste Type: " + type + "\n"
+                    + "Description: " + description.trim()
+            )
+            .build();
+
+    resend.emails().send(message);
+
+    System.out.println("Resend notification request completed.");
 
 } catch (Exception e) {
     System.err.println("Email notification failed: "
             + e.getMessage());
 }
+```
+
 
         return """
             <!DOCTYPE html>
